@@ -1,10 +1,14 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
-import { Mail, Send, Check } from 'lucide-react'
+import { Mail, Send, Check, Loader2, AlertCircle } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from '@/components/brand-icons'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mppzrbpq'
+
+type FormStatus = 'idle' | 'sending' | 'sent' | 'error'
 
 const socials = [
   {
@@ -28,13 +32,34 @@ const socials = [
 ]
 
 export function Contact() {
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<FormStatus>('idle')
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 4000)
-    e.currentTarget.reset()
+    const form = e.currentTarget
+    setStatus('sending')
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+
+      if (response.ok) {
+        setStatus('sent')
+        form.reset()
+        setTimeout(() => setStatus('idle'), 4000)
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 4000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 4000)
+    }
   }
 
   return (
@@ -125,14 +150,28 @@ export function Contact() {
 
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 font-mono text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 sm:w-auto"
+              disabled={status === 'sending'}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 font-mono text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
             >
-              {sent ? (
+              {status === 'sending' && (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  Sending...
+                </>
+              )}
+              {status === 'sent' && (
                 <>
                   <Check className="size-4" />
                   Message sent
                 </>
-              ) : (
+              )}
+              {status === 'error' && (
+                <>
+                  <AlertCircle className="size-4" />
+                  Try again
+                </>
+              )}
+              {status === 'idle' && (
                 <>
                   <Send className="size-4" />
                   Send message
