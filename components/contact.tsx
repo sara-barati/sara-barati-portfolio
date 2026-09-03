@@ -20,7 +20,7 @@ const socials = [
   {
     label: 'LinkedIn',
     value: '/in/sara-barati',
-    href: 'https://www.linkedin.com/in/sara-barati',
+    href: 'https://www.linkedin.com/in/sara-barati-30064323b/',
     icon: LinkedinIcon,
   },
   {
