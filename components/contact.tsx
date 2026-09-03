@@ -15,14 +15,14 @@ const socials = [
   },
   {
     label: 'LinkedIn',
-    value: '/in/sara-barati',
-    href: 'https://www.linkedin.com',
+    value: '/in/sara-barati-30064323b',
+    href: 'https://www.linkedin.com/in/sara-barati-30064323b/',
     icon: LinkedinIcon,
   },
   {
     label: 'GitHub',
-    value: '@sarabarati',
-    href: 'https://github.com',
+    value: '@sara-barati',
+    href: 'https://github.com/sara-barati',
     icon: GithubIcon,
   },
 ]

@@ -17,7 +17,7 @@ export function SiteFooter() {
             <Mail className="size-5" />
           </a>
           <a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/in/sara-barati-30064323b/"
             target="_blank"
             rel="noreferrer"
             aria-label="Sara Barati on LinkedIn"
@@ -26,7 +26,7 @@ export function SiteFooter() {
             <LinkedinIcon className="size-5" />
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/sara-barati"
             target="_blank"
             rel="noreferrer"
             aria-label="Sara Barati on GitHub"
